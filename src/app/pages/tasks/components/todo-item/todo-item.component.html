@@ -1,0 +1,26 @@
+<div class="card" [ngClass]="{ completed: task.completed }">
+  <div class="card__title">
+    <p nz-typography nzEllipsis [nzEllipsisRows]="1">
+      {{ task.title }}
+    </p>
+  </div>
+  <div class="card__actions">
+    <div class="card__actions__btns">
+      <app-actions-btns
+        [isCompleted]="task.completed"
+        (completeOrUpdateTask)="completeOrUpdateTask(task.id)"
+        (editTask)="handleEditTask(task.id)"
+        (deleteTask)="handleDeleteTask(task.id)"
+      ></app-actions-btns>
+    </div>
+
+    <div class="card__actions__btns_xs">
+      <app-actions-btns
+        [isCompleted]="task.completed"
+        (completeOrUpdateTask)="completeOrUpdateTask(task.id)"
+        (editTask)="handleEditTask(task.id)"
+        (deleteTask)="handleDeleteTask(task.id)"
+      ></app-actions-btns>
+    </div>
+  </div>
+</div>

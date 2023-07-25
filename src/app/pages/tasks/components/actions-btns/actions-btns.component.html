@@ -1,0 +1,17 @@
+<button nz-button nzType="link" (click)="handleCompleteOrUpdate()">
+  <span
+    *ngIf="!isCompleted; else completed"
+    nz-icon
+    nzType="check"
+    nzTheme="outline"
+  ></span>
+  <ng-template #completed>
+    <span nz-icon nzType="redo" nzTheme="outline"></span>
+  </ng-template>
+</button>
+<button nz-button nzType="link" (click)="handleEditTask()">
+  <span nz-icon nzType="edit" nzTheme="outline"></span>
+</button>
+<button nz-button nzType="link" (click)="handleDeleteTask()">
+  <span nz-icon nzType="delete" nzTheme="outline"></span>
+</button>
