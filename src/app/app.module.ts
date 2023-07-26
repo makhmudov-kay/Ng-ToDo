@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
+import { HandleErrorInterceptor } from './shared/interceptors/handle.error.interceptor';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 registerLocaleData(ru);
 
@@ -22,12 +24,18 @@ registerLocaleData(ru);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    NzNotificationModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: ru_RU },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HandleErrorInterceptor,
       multi: true,
     },
   ],

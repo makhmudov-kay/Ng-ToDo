@@ -1,6 +1,11 @@
+import { catchError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ToDoItemRequest, ToDoList } from '../models/todo-list.interface';
+import {
+  ToDoItem,
+  ToDoItemRequest,
+  ToDoList,
+} from '../models/todo-list.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +36,7 @@ export class TodoService {
    * @returns
    */
   addTask(model: ToDoItemRequest) {
-    return this.http.post(this.url, model);
+    return this.http.post<ToDoItem>(this.url, model);
   }
 
   /**
@@ -40,7 +45,7 @@ export class TodoService {
    * @returns
    */
   getById(id: string) {
-    return this.http.get(`${this.url}/${id}`);
+    return this.http.get(`${this.url}${id}/`);
   }
 
   /**
@@ -50,7 +55,7 @@ export class TodoService {
    * @returns
    */
   editTask(id: string, model: ToDoItemRequest) {
-    return this.http.put(`${this.url}/${id}`, model);
+    return this.http.put(`${this.url}${id}/`, model);
   }
 
   /**
@@ -59,6 +64,6 @@ export class TodoService {
    * @returns
    */
   delete(id: string) {
-    return this.http.delete(`${this.url}/${id}`);
+    return this.http.delete(`${this.url}${id}/`);
   }
 }

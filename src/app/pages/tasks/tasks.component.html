@@ -1,14 +1,41 @@
 <div class="todo">
   <div class="container">
     <div class="todo__block">
-      <h2 class="todo__title">ToDo List</h2>
-      <ng-container *ngIf="toDo$ | async as toDoList">
+      <div class="todo__header">
+        <h2 class="todo__title">ToDo List</h2>
+        <button
+          (click)="openModal()"
+          nz-button
+          nzType="primary"
+          nzShape="round"
+        >
+          Add new task
+        </button>
+      </div>
+      <ng-container *ngIf="toDo && !isLoading; else skeleton">
         <div class="todo__list">
-          <div class="todo__list__item" *ngFor="let task of toDoList.results">
-            <app-todo-item [task]="task"></app-todo-item>
+          <div class="todo__list__item" *ngFor="let task of toDo.results">
+            <app-todo-item
+              [task]="task"
+              (update)="completeTask($event)"
+              (edit)="editTask($event)"
+              (delete)="deleteTask($event)"
+            ></app-todo-item>
           </div>
         </div>
       </ng-container>
+      <ng-template #skeleton>
+        <div class="skelet" *ngFor="let skelet of [].constructor(6)">
+          <app-skeleton></app-skeleton>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>
+
+<app-task-modal
+  [(isVisible)]="isVisibleModal"
+  [form]="form"
+  [editingData]="editingData"
+  (submitTask)="addEditTask()"
+></app-task-modal>

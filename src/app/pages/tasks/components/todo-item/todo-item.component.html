@@ -8,8 +8,8 @@
     <div class="card__actions__btns">
       <app-actions-btns
         [isCompleted]="task.completed"
-        (completeOrUpdateTask)="completeOrUpdateTask(task.id)"
-        (editTask)="handleEditTask(task.id)"
+        (completeOrUpdateTask)="completeOrUpdateTask(task)"
+        (editTask)="handleEditTask(task)"
         (deleteTask)="handleDeleteTask(task.id)"
       ></app-actions-btns>
     </div>
@@ -17,8 +17,8 @@
     <div class="card__actions__btns_xs">
       <app-actions-btns
         [isCompleted]="task.completed"
-        (completeOrUpdateTask)="completeOrUpdateTask(task.id)"
-        (editTask)="handleEditTask(task.id)"
+        (completeOrUpdateTask)="completeOrUpdateTask(task)"
+        (editTask)="handleEditTask(task)"
         (deleteTask)="handleDeleteTask(task.id)"
       ></app-actions-btns>
     </div>

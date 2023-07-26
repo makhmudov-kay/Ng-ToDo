@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { ToDoItem } from '../../models/todo-list.interface';
-import { TodoService } from '../../service/todo.service';
 
 @Component({
   selector: 'app-todo-item',
@@ -22,19 +22,43 @@ export class TodoItemComponent {
 
   /**
    *
-   * @param $todo
    */
-  constructor(private $todo: TodoService) {}
+  @Output()
+  update = new EventEmitter<ToDoItem>();
 
-  completeOrUpdateTask(id: string) {
-    // this.$todo
+  /**
+   *
+   */
+  @Output()
+  edit = new EventEmitter<ToDoItem>();
+
+  /**
+   *
+   */
+  @Output()
+  delete = new EventEmitter<string>();
+
+  /**
+   *
+   * @param id
+   */
+  completeOrUpdateTask(task: ToDoItem) {
+    this.update.emit(task);
   }
 
-  handleEditTask(id: string) {
-    console.log(id);
+  /**
+   *
+   * @param id
+   */
+  handleEditTask(task: ToDoItem) {
+    this.edit.emit(task);
   }
 
+  /**
+   *
+   * @param id
+   */
   handleDeleteTask(id: string) {
-    console.log(id);
+    this.delete.emit(id);
   }
 }

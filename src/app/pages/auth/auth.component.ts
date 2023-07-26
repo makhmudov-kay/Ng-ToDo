@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from './service/auth.service';
 import { Router } from '@angular/router';
+import { markAsDirty } from 'src/app/shared/utilits/utilits';
 
 @Component({
   selector: 'app-auth',
@@ -53,20 +54,6 @@ export class AuthComponent implements OnInit {
 
   /**
    *
-   * @returns
-   */
-  private markAsDirty() {
-    Object.values(this.form.controls).forEach((control) => {
-      if (control.invalid) {
-        control.markAsDirty();
-        control.updateValueAndValidity({ onlySelf: true });
-      }
-    });
-    return;
-  }
-
-  /**
-   *
    */
   private stopLoadingBtn() {
     this.isLoading = false;
@@ -86,7 +73,7 @@ export class AuthComponent implements OnInit {
    */
   submitForm() {
     if (this.form.invalid) {
-      return this.markAsDirty();
+      return markAsDirty(this.form);
     }
 
     const request = this.form.getRawValue();

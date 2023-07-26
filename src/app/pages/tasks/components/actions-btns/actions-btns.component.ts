@@ -32,7 +32,7 @@ export class ActionsBtnsComponent {
   deleteTask = new EventEmitter();
 
   /**
-   * 
+   *
    */
   @Input()
   isCompleted!: boolean;

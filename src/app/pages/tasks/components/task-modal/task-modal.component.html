@@ -1,0 +1,22 @@
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Add new task"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+>
+  <ng-container *nzModalContent>
+    <form nz-form [formGroup]="form" nzLayout="vertical">
+      <nz-form-item>
+        <nz-form-label nzFor="title">Title</nz-form-label>
+        <nz-form-control nzErrorTip="Please input new task!">
+          <input
+            nz-input
+            id="title"
+            placeholder="task title"
+            formControlName="title"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>

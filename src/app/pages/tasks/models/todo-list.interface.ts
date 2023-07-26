@@ -19,3 +19,8 @@ export interface ToDoItemRequest {
   completed: boolean;
   user: number;
 }
+
+export interface ToDoComplete {
+  id: string;
+  completed: boolean;
+}

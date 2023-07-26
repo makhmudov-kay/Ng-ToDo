@@ -5,7 +5,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
-
+import { NzFormModule } from 'ng-zorro-antd/form';
 
 @NgModule({
   imports: [
@@ -16,6 +16,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     NzInputModule,
     NzIconModule,
     NzSwitchModule,
+    NzFormModule,
   ],
   exports: [
     CommonModule,
@@ -25,6 +26,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     NzInputModule,
     NzIconModule,
     NzSwitchModule,
+    NzFormModule,
   ],
 })
 export class SharedModule {}
