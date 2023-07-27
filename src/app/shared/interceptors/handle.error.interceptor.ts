@@ -14,27 +14,27 @@ export class HandleErrorInterceptor implements HttpInterceptor {
   /**
    *
    */
-  constructor(
-    private notification: NzNotificationService,
-  ) {}
+  constructor(private notification: NzNotificationService) {}
 
   /**
-   * 
-   * @param req 
-   * @param next 
-   * @returns 
+   *
+   * @param req
+   * @param next
+   * @returns
    */
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      catchError((error: HttpErrorResponse) => {  
-        console.log(error);
-              
-        this.notification.error('Error(s)', `${error.error.message}`, {
-          nzDuration: 0,
-        });
+      catchError((error: HttpErrorResponse) => {
+        this.notification.error(
+          'Error(s)',
+          `${error.error.message ? error.error.message : error.message}`,
+          {
+            nzDuration: 0,
+          }
+        );
         return throwError(() => error);
       })
     );

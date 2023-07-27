@@ -11,11 +11,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./pages/tasks/tasks.module').then((m) => m.TasksModule),
         canActivate: [AuthGuard],
+        title: 'Tasks',
       },
       {
         path: 'auth',
         loadChildren: () =>
           import('./pages/auth/auth.module').then((m) => m.AuthModule),
+        title: 'Authorization',
       },
     ],
   },

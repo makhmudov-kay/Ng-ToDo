@@ -12,7 +12,7 @@
           Add new task
         </button>
       </div>
-      <ng-container *ngIf="toDo && !isLoading; else skeleton">
+      <ng-container *ngIf="toDo; else skeleton">
         <div class="todo__list">
           <div class="todo__list__item" *ngFor="let task of toDo.results">
             <app-todo-item
@@ -35,7 +35,6 @@
 
 <app-task-modal
   [(isVisible)]="isVisibleModal"
-  [form]="form"
   [editingData]="editingData"
-  (submitTask)="addEditTask()"
+  (submitTask)="getList()"
 ></app-task-modal>

@@ -12,6 +12,8 @@ import {
   ToDoList,
 } from './models/todo-list.interface';
 import { markAsDirty } from 'src/app/shared/utilits/utilits';
+import { NgDestroy } from 'src/app/shared/utilits/ng-destroy.service';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-tasks',
@@ -28,22 +30,12 @@ export class TasksComponent implements OnInit {
   /**
    *
    */
-  form!: FormGroup;
-
-  /**
-   *
-   */
   isVisibleModal = false;
 
   /**
    *
    */
-  isLoading = false;
-
-  /**
-   *
-   */
-  editingData!: ToDoItem;
+  editingData?: ToDoItem;
 
   /**
    *
@@ -52,30 +44,21 @@ export class TasksComponent implements OnInit {
    */
   constructor(
     private $todo: TodoService,
-    private fb: FormBuilder,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private $destroy: NgDestroy
   ) {}
 
   /**
    *
    */
-  private getList() {
-    this.$todo.getAll().subscribe((result) => {
-      this.toDo = result;
-      this.isLoading = false;
-      this.cd.markForCheck();
-    });
-  }
-
-  /**
-   *
-   */
-  private initForm() {
-    this.form = this.fb.group({
-      title: [null, [Validators.required]],
-      completed: [false],
-      user: [1],
-    });
+  getList() {
+    this.$todo
+      .getAll()
+      .pipe(takeUntil(this.$destroy))
+      .subscribe((result) => {
+        this.toDo = result;
+        this.cd.markForCheck();
+      });
   }
 
   /**
@@ -83,7 +66,6 @@ export class TasksComponent implements OnInit {
    */
   ngOnInit() {
     this.getList();
-    this.initForm();
   }
 
   /**
@@ -96,25 +78,6 @@ export class TasksComponent implements OnInit {
 
   /**
    *
-   */
-  addEditTask(id?: string) {
-    if (this.form.invalid) {
-      markAsDirty(this.form);
-      return;
-    }
-
-    const request = this.form.getRawValue();
-    this.isLoading = true;
-    this.$todo.addTask(request).subscribe(() => {
-      this.isVisibleModal = false;
-      this.form.controls['title'].reset();
-      this.getList();
-      this.cd.markForCheck();
-    });
-  }
-
-  /**
-   *
    * @param id
    */
   completeTask(task: ToDoItem) {
@@ -123,11 +86,13 @@ export class TasksComponent implements OnInit {
       completed: !task.completed,
       user: task.user,
     };
-    request.completed = !task.completed;
-    this.isLoading = true;
-    this.$todo.editTask(task.id, request).subscribe(() => {
-      this.getList();
-    });
+
+    this.$todo
+      .editTask(task.id, request)
+      .pipe(takeUntil(this.$destroy))
+      .subscribe(() => {
+        this.getList();
+      });
   }
 
   /**
@@ -135,7 +100,6 @@ export class TasksComponent implements OnInit {
    * @param id
    */
   editTask(task: ToDoItem) {
-    this.form.controls['title'].setValue(task.title);
     this.editingData = task;
     this.cd.markForCheck();
     this.openModal();
@@ -146,8 +110,16 @@ export class TasksComponent implements OnInit {
    * @param id
    */
   deleteTask(id: string) {
-    this.toDo.results = this.toDo.results.filter((todo) => todo.id !== id);
-    this.$todo.delete(id).subscribe();
-    this.cd.markForCheck();
+    this.$todo
+      .delete(id)
+      .pipe(takeUntil(this.$destroy))
+      .subscribe({
+        next: () => {
+          this.toDo.results = this.toDo.results.filter(
+            (todo) => todo.id !== id
+          );
+          this.cd.markForCheck();
+        },
+      });
   }
 }

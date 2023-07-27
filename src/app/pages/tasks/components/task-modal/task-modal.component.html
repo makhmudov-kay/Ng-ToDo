@@ -1,8 +1,8 @@
 <nz-modal
   [(nzVisible)]="isVisible"
-  nzTitle="Add new task"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()"
+  [nzTitle]="editingData ? 'Edit Task' : 'Add new Task'"
+  (nzOnCancel)="close()"
+  (nzOnOk)="addEditTask()"
 >
   <ng-container *nzModalContent>
     <form nz-form [formGroup]="form" nzLayout="vertical">
